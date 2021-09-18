@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <context:component-scan base-package="com.lwg.controller"/>
+    <mvc:annotation-driven conversion-service="conversionService"></mvc:annotation-driven>
+    <mvc:default-servlet-handler/>
+
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="9999999999999"/>
+    </bean>
+
+
+    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <bean class="com.lwg.utils.DateConvertor"/>
+            </set>
+        </property>
+    </bean>
+
+    <bean class="com.lwg.utils.MyException"></bean>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.lwg.utils.LoginInte">
+                <property name="excludeMappingUrl">
+                    <list>
+                        <value>/user/toAdminLogin</value>
+                        <value>/user/adminLogin</value>
+                        <value>/user/toIndex</value>
+                        <value>/user/userLogin</value>
+                        <value>/user/forget</value>
+                        <value>/user/register</value>
+                        <value>/user/logout</value>
+                        <value>/user/expExl</value>
+                        <value>/user/updatePwd</value>
+
+                        <value>/music/getMusicsBySingerId</value>
+                        <value>/music/getComendMusics</value>
+                        <value>/music/getTypes</value>
+                        <value>/music/searchMusic</value>
+                        <value>/music/expExl</value>
+
+                        <value>/video/show</value>
+                        <value>/video/play</value>
+                        <value>/video/fbMsg</value>
+                        <value>/video/expExl</value>
+
+                        <value>/message/toMessageManager</value>
+                        <value>/message/delById</value>
+                        <value>/message/expExl</value>
+
+
+                        <value>.js</value>
+                        <value>.css</value>
+                        <value>.gif</value>
+                        <value>.png</value>
+                        <value>.map</value>
+                        <value>.jpg</value>
+                        <value>.png</value>
+                        <value>.mp3</value>
+                        <value>.mp4</value>
+                        <value>.avi</value>
+                        <value>.woff3</value>
+                        <value>.woff2</value>
+                        <value>.woff</value>
+                        <value>.ttf</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+
+</beans>
